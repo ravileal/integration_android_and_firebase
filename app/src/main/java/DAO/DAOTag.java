@@ -1,20 +1,8 @@
 package DAO;
 
-import android.util.Log;
+import com.google.firebase.database.DatabaseReference;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
-import model.Journal;
-import model.Tag;
+import Model.Tag;
 
 public class DAOTag extends DAO<Tag>{
 
@@ -23,18 +11,23 @@ public class DAOTag extends DAO<Tag>{
         classType = Tag.class;
     }
 
-    public void readId(String id, Response.Result response){
+    public void readId(String id, Response.Result<Tag> response){
         super.readId(id, response,
-            new Response.MapToObjectList<Tag>() {
-                @Override
-                public Tag result(HashMap hashMap) {
-                    Tag t = new Tag();
-                    t.setTagName(String.valueOf(hashMap.get("tagName")));
-                    t.setJournalCount(String.valueOf(hashMap.get("content")));
-                    return t;
-                }
+            hashMap -> {
+                Tag t = new Tag();
+                t.setTagName(String.valueOf(hashMap.get("tagName")));
+                t.setJournalCount(String.valueOf(hashMap.get("content")));
+                return t;
             }
         );
     }
 
+    public void update(Tag tag){
+        DatabaseReference tagReference = super.update(tag.getId());
+
+        tagReference.child("tagName").setValue(tag.getTagName());
+        tagReference.child("journalCount").setValue(tag.getJournalCount());
+    }
+
 }
+

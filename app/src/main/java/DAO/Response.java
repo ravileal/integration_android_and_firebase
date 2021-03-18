@@ -3,7 +3,7 @@ package DAO;
 import java.util.HashMap;
 import java.util.List;
 
-import model.Model;
+import Model.Model;
 
 public abstract class Response {
 

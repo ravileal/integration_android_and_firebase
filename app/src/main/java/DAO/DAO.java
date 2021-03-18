@@ -15,20 +15,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import model.Journal;
-import model.Model;
+import Model.Model;
 
 public abstract class DAO<T extends Model> {
 
     protected String tableName;
     protected Class classType;
 
-    public void create(List<T> listModel) {
-        for (T obj: listModel){
-            DatabaseReference table = Connection.configureTable(tableName);
-            obj.setId(table.push().getKey());
-            table.child(obj.getId()).setValue(obj);
-        }
+    public void create(Model obj) {
+        DatabaseReference table = Connection.configureTable(tableName);
+        obj.setId(table.push().getKey());
+        table.child(obj.getId()).setValue(obj);
     }
 
     public void readAll(Response.Result<T> response){
@@ -52,21 +49,29 @@ public abstract class DAO<T extends Model> {
 
     protected void readId(String id, Response.Result<T> response, Response.MapToObjectList<T> mapToObject){
         Connection.configureTable(tableName).child(id).get().addOnCompleteListener(
-                new OnCompleteListener<DataSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            Log.e("firebase", "Error getting data", task.getException());
-                        } else {
-                            HashMap hashMap = (HashMap) task.getResult().getValue();
+            new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    } else {
+                        HashMap hashMap = (HashMap) task.getResult().getValue();
 
-                            List<T> list = new ArrayList<T>();
-                            list.add(mapToObject.result(hashMap));
-                            response.result(list);
-                        }
+                        List<T> list = new ArrayList<T>();
+                        list.add(mapToObject.result(hashMap));
+                        response.result(list);
                     }
                 }
+            }
         );
+    }
+
+    protected DatabaseReference update(String id){
+        return Connection.configureTable(tableName).child(id);
+    }
+
+    public void delete(String id){
+        Connection.configureTable(tableName).child(id).removeValue();
     }
 
 }

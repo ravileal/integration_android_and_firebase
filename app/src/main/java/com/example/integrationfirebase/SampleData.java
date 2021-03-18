@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import model.Journal;
-import model.Tag;
+import Model.Journal;
+import Model.Tag;
 
 public abstract class SampleData {
 

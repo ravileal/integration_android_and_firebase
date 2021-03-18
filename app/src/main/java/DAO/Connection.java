@@ -3,13 +3,9 @@ package DAO;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class Connection {
+public abstract class Connection {
 
     private static DatabaseReference mDatabase = null;
-
-    public Connection() {
-        configureReference();
-    }
 
     private static void configureReference(){
         mDatabase =  FirebaseDatabase.getInstance().getReference();
