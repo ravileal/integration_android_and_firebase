@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Conversa extends Model{
+public class Conversa extends Model {
 
     private String title;
     private ArrayList<String> idUsuario;

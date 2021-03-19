@@ -1,6 +1,6 @@
 package Model;
 
-public class Mensagem extends Model{
+public class Mensagem extends Model {
 
     private String mensagem;
     private String idConversa;

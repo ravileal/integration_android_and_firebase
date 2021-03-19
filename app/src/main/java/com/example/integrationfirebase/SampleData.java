@@ -1,13 +1,10 @@
 package com.example.integrationfirebase;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import Controller.ControllerConversa;
 import Model.Conversa;
 import Model.Mensagem;
-import Model.Tag;
 
 public abstract class SampleData {
 
