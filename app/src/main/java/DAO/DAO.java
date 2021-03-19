@@ -66,8 +66,8 @@ public abstract class DAO<T extends Model> {
         );
     }
 
-    protected DatabaseReference update(String id){
-        return Connection.configureTable(tableName).child(id);
+    protected DatabaseReference update(T obj){
+        return Connection.configureTable(tableName).child(obj.getId());
     }
 
     public void delete(String id){
